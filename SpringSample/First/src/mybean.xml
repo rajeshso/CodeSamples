@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+      <bean id="cal" class="one.CalciImpl" scope="prototype">
+           
+      </bean>
+     <!--  <bean id="cal2"  class="one.CalciImpl"></bean>
+      <bean id="cal3"  class="one.CalciImpl"></bean>  -->
+      <bean id="customer" class="one.Customer">
+         <property name="cid" value="100"></property><!--  basic wiring -->
+         <property name="name" value="Niranjan"></property><!-- property injection -->
+      </bean>
+      <bean id="interno" class="one.InternalCustomer">
+          <constructor-arg value="200" />
+           <constructor-arg value="Finder"/>
+      </bean>
+      <bean id="secoin" class="one.InternalCustomer">
+          <constructor-arg  value="WolfOne" /><!-- constructor wiring.... -->
+          <constructor-arg  value="22"  />
+          <constructor-arg  ref ="address"/><!-- this is my object ref wiring -->
+      </bean>
+      <bean id="address" class="one.Address"/>
+      <bean id="book" class="second.Book"></bean>
+      <bean id="library" class="second.Library">
+         <property name="mylist">
+           <list>
+             <value>one</value>
+             <value>two</value>
+             <value>three</value>
+           </list>
+         </property>
+         <property name="myset">
+           <set>
+             <value>Single</value>
+             <value>double</value>
+             <value>Third</value>
+           </set>
+         </property>
+         <property name="mymap">
+            <map>
+              <entry key="1" value-ref="book"></entry>
+              <entry key="2" value-ref="book"></entry> 
+            </map>
+         
+         </property>
+         <property name="myprops">
+            <props>
+               <prop key="one">book</prop>
+            </props>
+         </property>
+         
+      
+      </bean>
+</beans>

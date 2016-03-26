@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+  xmlns="http://www.springframework.org/schema/beans" 
+  xmlns:amq="http://activemq.apache.org/schema/core"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- ActiveMQ -->
+
+	<!-- embedded ActiveMQ Broker -->
+	<!-- <amq:broker useJmx="false" persistent="false">
+		<amq:transportConnectors>
+			<amq:transportConnector uri="tcp://localhost:61616" />
+		</amq:transportConnectors>
+	</amq:broker> -->
+
+	<!--  amq:queue id="notificationQueue" physicalName="backtype.storm.contrib.example.queue" /-->
+	 <context:property-placeholder system-properties-mode="ENVIRONMENT"/>
+	 
+	<amq:topic id="notificationTopic" physicalName="dtcc.us.masterbroker" />
+<!--  
+	<amq:connectionFactory id="jmsConnectionFactory"
+		brokerURL="tcp://localhost:61616" />
+-->
+	<amq:connectionFactory id="jmsConnectionFactory"
+		brokerURL="${amqBrokerURL}" />
+		
+<!--  
+	<bean id="topicTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory">
+			<ref bean="jmsConnectionFactory" />
+		</property>
+		<property name="pubSubDomain" value="true" />
+	</bean> -->
+	
+	<!--  bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"
+		c:_-ref="connectionFactory" p:defaultDestination-ref="dtccTopic" /-->
+		
+	<!-- 
+	<bean class="org.springframework.jms.connection.CachingConnectionFactory"
+		id="connectionFactory">
+		<constructor-arg ref="jmsConnectionFactory" />
+		<property name="sessionCacheSize" value="100" />
+	</bean>	
+	 -->	
+			
+</beans>

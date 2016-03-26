@@ -1,0 +1,15 @@
+package uk.rajesh;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = RestfulApplication.class)
+public class RestfulApplicationTests {
+	@Test
+	public void contextLoads() {
+	}
+
+}

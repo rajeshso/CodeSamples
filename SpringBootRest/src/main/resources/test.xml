@@ -1,0 +1,19 @@
+<security-constraint>
+	<auth-constraint>
+		<role-name>member</role-name>
+	</auth-constraint>
+	<web-resource-collection>
+		<url-pattern>/backend/user/service/getUserInfo</url-pattern>
+		<http-method>GET</http-method>
+	</web-resource-collection>
+	<user-data-constraint>
+		<transport-guarantee>CONFIDENTIAL</transport-guarantee> <!-- The other parameter is INTEGRAL -->
+	</user-data-constraint>
+</security-constraint>
+<security-constraint>
+	<auth-constraint>
+	</auth-constraint>
+</security-constraint>
+<login-congig>
+	<auth-method>BASIC </auth-method>
+</login-congig>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:amq="http://activemq.apache.org/schema/core"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.2.xsd 
+ 		http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd 
+ 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+ 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	<!--  
+	<amq:connectionFactory id="connectionFactory" brokerURL="tcp://localhost:61616" 
+		/>
+	-->
+
+	<bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://localhost:61616" />
+	</bean>
+
+	<amq:pooledConnectionFactory id="connectionFactory"
+		maxConnections="10" maximumActive="100">
+		<property name="connectionFactory">
+			<ref bean="jmsConnectionFactory" />
+		</property>
+	</amq:pooledConnectionFactory>
+
+	<amq:topic id="dtccTopic" physicalName="dtcc.us.masterbroker" />
+	<amq:topic id="dtccTopic1" physicalName="dtcc.uk.broker" />
+
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"
+		c:_-ref="connectionFactory" p:defaultDestination-ref="dtccTopic" />
+
+	<bean id="jmsTemplate1" class="org.springframework.jms.core.JmsTemplate"
+		c:_-ref="connectionFactory" p:defaultDestination-ref="dtccTopic1" />
+		
+	<bean id="publisherService" class="demo.StandaloneSpringPublisher">
+		<property name="jmsTemplate">
+			<ref bean="jmsTemplate" />
+		</property>
+	</bean>
+
+	<bean id="subscriberService" class="demo.StandaloneSpringSubscriber">
+		<property name="jmsTemplate">
+			<ref bean="jmsTemplate" />
+		</property>
+	</bean>
+
+	<bean id="subscriberService1" class="demo.StandaloneSpringSubscriber">
+		<property name="jmsTemplate">
+			<ref bean="jmsTemplate1" />
+		</property>
+	</bean>
+
+	
+  <!-- Pooled Spring connection factory -->
+  <!--  
+  <bean id="connectionFactory"
+    class="org.springframework.jms.connection.CachingConnectionFactory">
+    <constructor-arg ref="jmsConnectionFactory" />
+  </bean>
+  -->	
+</beans>
