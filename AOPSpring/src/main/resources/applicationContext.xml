@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+	<bean id="work" class="com.rajesh.pointcuts.Work"></bean>
+	<bean id="advice" class="com.rajesh.aspects.Advice"></bean>
+	<aop:config>
+		<aop:aspect ref="advice">
+			<!-- Aspect Point cuts - The place to intercept -->
+			<aop:pointcut id="officetable" expression="execution(* *.doWork(..))" />
+			<!-- Aspect Joint cuts - The intercept method -->
+			<aop:before pointcut-ref="officetable" method="sayGoodMorning" />
+			<!--  aop:after-throwing pointcut-ref="officetable" method="" /-->
+			<aop:around pointcut-ref="officetable" method="sayHello" />
+			<aop:after pointcut-ref="officetable" method="saySeeYou" />
+			<aop:after-returning pointcut-ref="officetable" method="toString" />
+		</aop:aspect>
+
+
+	</aop:config>
+</beans>
