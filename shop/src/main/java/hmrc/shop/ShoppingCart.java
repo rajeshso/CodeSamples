@@ -2,8 +2,11 @@ package hmrc.shop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import hmrc.shop.product.Product;
+import static hmrc.shop.product.Product.APPLE;
+import static hmrc.shop.product.Product.ORANGE;;
 
 /**
  * Hello world!
@@ -37,9 +40,45 @@ public class ShoppingCart
 	}
 	
 	public double getPrice() {
-		return itemList.stream().mapToDouble((i)->i.getPrice()).sum();
+		if (!withOffer)
+			return itemList.stream().mapToDouble((i)->i.getPrice()).sum();
+		else {
+			double price = getAppleOfferPrice();
+			return price;
+		}
 	}
 
+	/**
+	 * @return
+	 */
+	private double getAppleOfferPrice() {
+		List<Product> appleList = itemList.stream().filter(i -> i == APPLE).collect(Collectors.toList());
+		boolean apple1FreeToggle = true;
+		double price = 0.0;
+		for (Product apple : appleList) {
+			if (apple1FreeToggle) {
+				price += apple.getPrice();
+				apple1FreeToggle = false;
+			}else {
+				apple1FreeToggle = true;
+			}
+		}
+		return price;
+	}
+	private double getOrangeOfferPrice() {
+		List<Product> appleList = itemList.stream().filter(i -> i == ORANGE).collect(Collectors.toList());
+		boolean apple1FreeToggle = true;
+		double price = 0.0;
+		for (Product apple : appleList) {
+			if (apple1FreeToggle) {
+				price += apple.getPrice();
+				apple1FreeToggle = false;
+			}else {
+				apple1FreeToggle = true;
+			}
+		}
+		return price;
+	}
 	public boolean isWithOffer() {
 		return withOffer;
 	}

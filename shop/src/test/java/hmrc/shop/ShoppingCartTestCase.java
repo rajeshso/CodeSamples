@@ -47,4 +47,29 @@ public class ShoppingCartTestCase
     	assertThat(cart.getCount()).isEqualTo(3);
     	assertThat(cart.getPrice()).isEqualTo(1.45);
     }
+    @Test
+    public void priceOfTwoApplesWithoutOffer() {
+    	ShoppingCart cart = new ShoppingCart();
+    	cart.add(Product.APPLE);
+    	cart.add(Product.APPLE);
+    	assertThat(cart.getCount()).isEqualTo(2);
+    	assertThat(cart.getPrice()).isEqualTo(1.2);
+    }
+    @Test
+    public void priceOfTwoApplesWithOffer() {
+    	ShoppingCart cart = new ShoppingCart(true);
+    	cart.add(Product.APPLE);
+    	cart.add(Product.APPLE);
+    	assertThat(cart.getCount()).isEqualTo(2);
+    	assertThat(cart.getPrice()).isEqualTo(0.6);
+    }
+    @Test
+    public void priceOfThreeApplesWithOffer() {
+    	ShoppingCart cart = new ShoppingCart(true);
+    	cart.add(Product.APPLE);
+    	cart.add(Product.APPLE);
+    	cart.add(Product.APPLE);
+    	assertThat(cart.getCount()).isEqualTo(3);
+    	assertThat(cart.getPrice()).isEqualTo(1.2);
+    }
 }
