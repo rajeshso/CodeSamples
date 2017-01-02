@@ -1,6 +1,8 @@
 package hmrc.shop;
 
 import hmrc.shop.product.Product;
+import static hmrc.shop.product.Product.APPLE;
+import static hmrc.shop.product.Product.ORANGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
@@ -71,5 +73,41 @@ public class ShoppingCartTestCase
     	cart.add(Product.APPLE);
     	assertThat(cart.getCount()).isEqualTo(3);
     	assertThat(cart.getPrice()).isEqualTo(1.2);
+    }
+    @Test
+    public void priceOfThreeOrangesWithOffer() {
+    	ShoppingCart cart = new ShoppingCart(true);
+    	cart.add(ORANGE);
+    	cart.add(ORANGE);
+    	cart.add(ORANGE);
+    	assertThat(cart.getCount()).isEqualTo(3);
+    	assertThat(cart.getPrice()).isEqualTo(0.5);
+    }
+    @Test
+    public void priceOfTwoApplesThreeOrangesWithOffer() {
+    	ShoppingCart cart = new ShoppingCart(true);
+    	cart.add(ORANGE);
+    	cart.add(ORANGE);
+    	cart.add(ORANGE);
+    	cart.add(APPLE);
+    	cart.add(APPLE);
+    	assertThat(cart.getCount()).isEqualTo(5);
+    	assertThat(cart.getPrice()).isEqualTo(1.1);
+    }
+    @Test
+    public void priceOfThreeApplesSevenOrangesWithOffer() {
+    	ShoppingCart cart = new ShoppingCart(true);
+    	cart.add(APPLE);
+    	cart.add(ORANGE);
+    	cart.add(ORANGE);
+    	cart.add(ORANGE);
+    	cart.add(ORANGE);
+    	cart.add(ORANGE);
+    	cart.add(ORANGE);
+    	cart.add(ORANGE);
+    	cart.add(APPLE);
+    	cart.add(APPLE);
+    	assertThat(cart.getCount()).isEqualTo(10);
+    	assertThat(cart.getPrice()).isEqualTo(2.45);
     }
 }

@@ -41,16 +41,12 @@ public class ShoppingCart
 	
 	public double getPrice() {
 		if (!withOffer)
-			return itemList.stream().mapToDouble((i)->i.getPrice()).sum();
+			return itemList.stream().mapToDouble(i->i.getPrice()).sum();
 		else {
-			double price = getAppleOfferPrice();
-			return price;
+			return getAppleOfferPrice() + getOrangeOfferPrice();
 		}
 	}
 
-	/**
-	 * @return
-	 */
 	private double getAppleOfferPrice() {
 		List<Product> appleList = itemList.stream().filter(i -> i == APPLE).collect(Collectors.toList());
 		boolean apple1FreeToggle = true;
@@ -65,26 +61,24 @@ public class ShoppingCart
 		}
 		return price;
 	}
+
 	private double getOrangeOfferPrice() {
-		List<Product> appleList = itemList.stream().filter(i -> i == ORANGE).collect(Collectors.toList());
-		boolean apple1FreeToggle = true;
+		List<Product> orangeList = itemList.stream().filter(i -> i == ORANGE).collect(Collectors.toList());
 		double price = 0.0;
-		for (Product apple : appleList) {
-			if (apple1FreeToggle) {
-				price += apple.getPrice();
-				apple1FreeToggle = false;
-			}else {
-				apple1FreeToggle = true;
+		for (int i=0;i<orangeList.size();i++) {
+			if ( isPayOrangeIndex(i)) {
+				price += orangeList.get(i).getPrice();
 			}
 		}
 		return price;
 	}
+
+	private boolean isPayOrangeIndex(int i) {
+		return ((i+1)%3) != 0;
+	}
+	
 	public boolean isWithOffer() {
 		return withOffer;
 	}
-	
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-    }
+
 }
