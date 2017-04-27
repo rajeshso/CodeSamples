@@ -3,6 +3,7 @@ package raj.streams.pipingList1;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 import static java.util.Comparator.comparing;
@@ -22,9 +23,7 @@ public class DishOrganizer {
 		//Extract the name
 		//Collect to a list
 		List<String> result = null;
-		result = dishList.stream().filter((dish) -> {
-			return dish.getCalories() > cutoffcalorie;
-		}).sorted(Comparator.comparing(Dish::getCalories)).map(Dish::getName).collect(Collectors.toList());
+		result = dishList.stream().filter(caloriePredicate(cutoffcalorie)).sorted(Comparator.comparing(Dish::getCalories)).map(Dish::getName).collect(Collectors.toList());
 		
 		//TO understand the sequence of operations
 		result = dishList.stream().filter((dish) -> {
@@ -41,6 +40,16 @@ public class DishOrganizer {
 				.sorted(comparing(Dish::getCalories))
 				.map(Dish::getName).collect(toList());
 		return result;
+	}
+
+	/**
+	 * @param cutoffcalorie
+	 * @return
+	 */
+	private Predicate<? super Dish> caloriePredicate(int cutoffcalorie) {
+		return (dish) -> {
+			return dish.getCalories() > cutoffcalorie;
+		};
 	}
 	
 	private List<Dish> createDishes() {
